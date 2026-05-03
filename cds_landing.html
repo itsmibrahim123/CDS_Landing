@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CDS — Covenant Diligence Systems</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0E1A14;
+    --ink-muted: #4A5E54;
+    --ink-faint: #8A9E94;
+    --paper: #F5F2ED;
+    --paper-alt: #EDE9E1;
+    --accent: #1A6B42;
+    --accent-light: #D6EDE1;
+    --accent-mid: #2D8F5A;
+    --gold: #B08A3A;
+    --gold-light: #F5EDDA;
+    --border: rgba(14,26,20,0.12);
+    --border-strong: rgba(14,26,20,0.22);
+    --serif: 'Instrument Serif', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 4rem;
+    height: 68px;
+    background: rgba(245,242,237,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid var(--border);
+  }
+
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+  }
+
+  .nav-logo-mark {
+    width: 32px; height: 32px;
+    background: var(--accent);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .nav-logo-mark svg { width: 18px; height: 18px; }
+
+  .nav-wordmark {
+    font-family: var(--serif);
+    font-size: 18px;
+    letter-spacing: 0.01em;
+    color: var(--ink);
+  }
+
+  .nav-links {
+    display: flex; align-items: center; gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    font-size: 14px;
+    color: var(--ink-muted);
+    transition: color 0.2s;
+    font-weight: 400;
+  }
+
+  .nav-links a:hover { color: var(--ink); }
+
+  .nav-cta {
+    background: var(--accent);
+    color: #fff !important;
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    transition: background 0.2s !important;
+  }
+
+  .nav-cta:hover { background: var(--accent-mid) !important; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 68px;
+  }
+
+  .hero-left {
+    padding: 8rem 4rem 6rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 0.5px solid var(--border);
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--gold-light);
+    border: 0.5px solid rgba(176,138,58,0.3);
+    border-radius: 100px;
+    padding: 5px 14px 5px 10px;
+    font-size: 12px;
+    color: var(--gold);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    width: fit-content;
+  }
+
+  .hero-badge-dot {
+    width: 6px; height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.85); }
+  }
+
+  .hero-h1 {
+    font-family: var(--serif);
+    font-size: clamp(2.8rem, 4.5vw, 4.2rem);
+    font-weight: 400;
+    line-height: 1.12;
+    color: var(--ink);
+    margin-bottom: 1.75rem;
+    letter-spacing: -0.01em;
+  }
+
+  .hero-h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: 17px;
+    color: var(--ink-muted);
+    max-width: 440px;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+  }
+
+  .hero-actions {
+    display: flex; gap: 12px; flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+    text-decoration: none;
+    padding: 13px 28px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-block;
+  }
+
+  .btn-primary:hover { background: var(--accent-mid); transform: translateY(-1px); }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--ink);
+    text-decoration: none;
+    padding: 13px 28px;
+    border-radius: 8px;
+    border: 0.5px solid var(--border-strong);
+    font-size: 15px;
+    font-weight: 400;
+    transition: background 0.2s;
+    display: inline-block;
+  }
+
+  .btn-secondary:hover { background: var(--paper-alt); }
+
+  .hero-right {
+    background: var(--ink);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 6rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-right::before {
+    content: '';
+    position: absolute; top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: rgba(42,110,66,0.18);
+  }
+
+  .hero-right::after {
+    content: '';
+    position: absolute; bottom: -80px; left: -40px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(176,138,58,0.12);
+  }
+
+  .pipeline-card {
+    background: rgba(255,255,255,0.05);
+    border: 0.5px solid rgba(255,255,255,0.12);
+    border-radius: 12px;
+    padding: 1.5rem;
+    position: relative; z-index: 1;
+  }
+
+  .pipeline-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1.25rem;
+    font-weight: 500;
+  }
+
+  .pipeline-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .pipeline-step {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 0.5px solid rgba(255,255,255,0.07);
+    position: relative;
+  }
+
+  .pipeline-step:last-child { border-bottom: none; }
+
+  .step-num {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    flex-shrink: 0;
+    font-weight: 500;
+  }
+
+  .step-num.active {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  .step-text {
+    font-size: 14px;
+    color: rgba(255,255,255,0.7);
+    font-weight: 300;
+  }
+
+  .step-tag {
+    margin-left: auto;
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 100px;
+    background: rgba(45,143,90,0.2);
+    color: #7EC99D;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+
+  .step-tag.done { background: rgba(176,138,58,0.2); color: #D4A85A; }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 1.25rem;
+    position: relative; z-index: 1;
+  }
+
+  .stat-card {
+    background: rgba(255,255,255,0.04);
+    border: 0.5px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: var(--serif);
+    font-size: 26px;
+    color: #fff;
+    display: block;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    font-weight: 400;
+  }
+
+  /* SECTION COMMON */
+  section { padding: 7rem 4rem; }
+
+  .section-eyebrow {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+
+  .section-h2 {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 400;
+    line-height: 1.18;
+    color: var(--ink);
+    max-width: 600px;
+    letter-spacing: -0.01em;
+  }
+
+  .section-h2 em { font-style: italic; color: var(--accent); }
+
+  .section-body {
+    font-size: 16px;
+    color: var(--ink-muted);
+    max-width: 520px;
+    margin-top: 1.25rem;
+    font-weight: 300;
+    line-height: 1.75;
+  }
+
+  /* PROBLEM */
+  .problem-section {
+    background: var(--paper-alt);
+    border-top: 0.5px solid var(--border);
+    border-bottom: 0.5px solid var(--border);
+  }
+
+  .problem-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .pain-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 2rem;
+  }
+
+  .pain-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 20px;
+    background: var(--paper);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+  }
+
+  .pain-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: rgba(224,72,54,0.1);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 14px;
+  }
+
+  .pain-item-text strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+
+  .pain-item-text span {
+    font-size: 13px;
+    color: var(--ink-muted);
+    font-weight: 300;
+  }
+
+  /* FEATURES */
+  .features-section { max-width: 1100px; margin: 0 auto; }
+
+  .features-header { text-align: center; margin-bottom: 4rem; }
+
+  .features-header .section-h2, .features-header .section-body {
+    max-width: none;
+    margin-left: auto; margin-right: auto;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+    background: var(--border);
+    border: 0.5px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .feature-cell {
+    background: var(--paper);
+    padding: 2rem 1.75rem;
+    position: relative;
+  }
+
+  .feature-cell:hover { background: var(--paper-alt); }
+
+  .feature-icon-wrap {
+    width: 42px; height: 42px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.25rem;
+    font-size: 18px;
+  }
+
+  .feature-icon-wrap.green { background: var(--accent-light); }
+  .feature-icon-wrap.gold { background: var(--gold-light); }
+  .feature-icon-wrap.blue { background: #DDEEFF; }
+
+  .feature-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .feature-desc {
+    font-size: 13px;
+    color: var(--ink-muted);
+    line-height: 1.65;
+    font-weight: 300;
+  }
+
+  /* WORKFLOW */
+  .workflow-section {
+    background: var(--ink);
+    padding: 7rem 4rem;
+  }
+
+  .workflow-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .workflow-header { margin-bottom: 4rem; }
+
+  .workflow-header .section-eyebrow { color: #7EC99D; }
+
+  .workflow-header .section-h2 {
+    color: #fff;
+    max-width: none;
+  }
+
+  .workflow-steps {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0;
+    position: relative;
+  }
+
+  .workflow-steps::before {
+    content: '';
+    position: absolute;
+    top: 28px; left: 10%; right: 10%;
+    height: 0.5px;
+    background: rgba(255,255,255,0.15);
+  }
+
+  .wf-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0 8px;
+  }
+
+  .wf-num {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.07);
+    border: 0.5px solid rgba(255,255,255,0.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    font-weight: 500;
+    margin-bottom: 1rem;
+    position: relative; z-index: 1;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+
+  .wf-num.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  .wf-label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  .wf-step.active .wf-label { color: rgba(255,255,255,0.85); }
+
+  /* OUTPUT */
+  .output-section { padding: 7rem 4rem; }
+
+  .output-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+
+  .output-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 2rem;
+  }
+
+  .output-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: var(--ink-muted);
+    font-weight: 300;
+  }
+
+  .output-check {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--accent-light);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 10px;
+  }
+
+  .export-card {
+    background: var(--ink);
+    border-radius: 16px;
+    padding: 2rem;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .export-card::before {
+    content: '';
+    position: absolute; top: -50px; right: -50px;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    background: rgba(42,110,66,0.2);
+  }
+
+  .export-header {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+  }
+
+  .export-items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative; z-index: 1;
+  }
+
+  .export-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: rgba(255,255,255,0.05);
+    border: 0.5px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.75);
+  }
+
+  .export-fmt {
+    margin-left: auto;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 100px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .fmt-docx { background: rgba(24,95,165,0.25); color: #7EB5F0; }
+  .fmt-pdf { background: rgba(192,50,50,0.25); color: #F07E7E; }
+  .fmt-both { background: rgba(45,143,90,0.25); color: #7EC99D; }
+
+  /* SECURITY */
+  .security-section {
+    background: var(--paper-alt);
+    border-top: 0.5px solid var(--border);
+    border-bottom: 0.5px solid var(--border);
+    padding: 7rem 4rem;
+  }
+
+  .security-inner {
+    max-width: 1100px; margin: 0 auto;
+  }
+
+  .security-header { text-align: center; margin-bottom: 4rem; }
+  .security-header .section-h2, .security-header .section-body { max-width: none; }
+
+  .security-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+
+  .sec-card {
+    background: var(--paper);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .sec-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    background: var(--accent-light);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1rem;
+    font-size: 20px;
+  }
+
+  .sec-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .sec-desc {
+    font-size: 12px;
+    color: var(--ink-muted);
+    line-height: 1.55;
+    font-weight: 300;
+  }
+
+  /* USERS */
+  .users-section {
+    padding: 7rem 4rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .users-header { text-align: center; margin-bottom: 4rem; }
+
+  .users-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+
+  .user-card {
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    padding: 1.75rem 1.5rem;
+    transition: border-color 0.2s, background 0.2s;
+    cursor: default;
+  }
+
+  .user-card:hover {
+    border-color: var(--accent);
+    background: var(--accent-light);
+  }
+
+  .user-icon {
+    font-size: 28px;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .user-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .user-desc {
+    font-size: 12px;
+    color: var(--ink-muted);
+    font-weight: 300;
+    line-height: 1.55;
+  }
+
+  /* CTA */
+  .cta-section {
+    background: var(--accent);
+    padding: 6rem 4rem;
+    text-align: center;
+  }
+
+  .cta-h2 {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 3.5vw, 3.2rem);
+    font-weight: 400;
+    color: #fff;
+    max-width: 600px;
+    margin: 0 auto 1.5rem;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  .cta-sub {
+    font-size: 16px;
+    color: rgba(255,255,255,0.7);
+    max-width: 480px;
+    margin: 0 auto 2.5rem;
+    font-weight: 300;
+  }
+
+  .cta-buttons {
+    display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+  }
+
+  .btn-white {
+    background: #fff;
+    color: var(--accent);
+    padding: 13px 30px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    transition: opacity 0.2s, transform 0.15s;
+    display: inline-block;
+  }
+
+  .btn-white:hover { opacity: 0.9; transform: translateY(-1px); }
+
+  .btn-outline-white {
+    border: 0.5px solid rgba(255,255,255,0.5);
+    color: rgba(255,255,255,0.85);
+    padding: 13px 30px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 400;
+    transition: border-color 0.2s, background 0.2s;
+    display: inline-block;
+  }
+
+  .btn-outline-white:hover {
+    border-color: #fff;
+    background: rgba(255,255,255,0.1);
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    padding: 3rem 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-logo {
+    font-family: var(--serif);
+    font-size: 16px;
+    color: rgba(255,255,255,0.6);
+  }
+
+  .footer-note {
+    font-size: 12px;
+    color: rgba(255,255,255,0.3);
+    font-weight: 300;
+  }
+
+  /* SCROLL OFFSET — accounts for fixed 68px navbar */
+  section[id] { scroll-margin-top: 68px; }
+
+  /* ACTIVE NAV STATE */
+  .nav-links a.nav-active {
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-badge { animation: fadeUp 0.5s ease both; }
+  .hero-h1 { animation: fadeUp 0.6s 0.1s ease both; }
+  .hero-sub { animation: fadeUp 0.6s 0.2s ease both; }
+  .hero-actions { animation: fadeUp 0.6s 0.3s ease both; }
+  .pipeline-card { animation: fadeUp 0.7s 0.2s ease both; }
+  .hero-stats { animation: fadeUp 0.7s 0.35s ease both; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 0 1.5rem; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-left { padding: 5rem 1.5rem 3rem; border-right: none; border-bottom: 0.5px solid var(--border); }
+    .hero-right { padding: 3rem 1.5rem; }
+    .problem-inner, .output-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    .features-grid { grid-template-columns: 1fr; }
+    .workflow-steps { grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+    .workflow-steps::before { display: none; }
+    .security-grid, .users-grid { grid-template-columns: repeat(2, 1fr); }
+    section { padding: 4rem 1.5rem; }
+    .security-section, .workflow-section, .output-section, .cta-section { padding: 4rem 1.5rem; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <div class="nav-logo-mark">
+      <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="6" height="6" rx="1.5" fill="white"/>
+        <rect x="10" y="2" width="6" height="6" rx="1.5" fill="rgba(255,255,255,0.5)"/>
+        <rect x="2" y="10" width="6" height="6" rx="1.5" fill="rgba(255,255,255,0.5)"/>
+        <rect x="10" y="10" width="6" height="6" rx="1.5" fill="rgba(255,255,255,0.7)"/>
+      </svg>
+    </div>
+    <span class="nav-wordmark">CDS</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#workflow">Workflow</a></li>
+    <li><a href="#security">Security</a></li>
+    <li><a href="#users">Who It's For</a></li>
+    <li><a href="#" class="nav-cta" onclick="openDemo();return false;">Request Demo</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-badge">
+      <div class="hero-badge-dot"></div>
+      Bank-Grade Property Diligence · Pakistan
+    </div>
+    <h1 class="hero-h1">
+      Property documents,<br><em>intelligently</em><br>reviewed.
+    </h1>
+    <p class="hero-sub">
+      Covenant Diligence Systems converts unstructured legal and property records into structured, bank-ready dossiers — with OCR, risk detection, and automated CP generation built in.
+    </p>
+    <div class="hero-actions">
+      <a href="#" class="btn-primary" onclick="openDemo();return false;">Request a Demo</a>
+      <a href="#workflow" class="btn-secondary">See How It Works</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="pipeline-card">
+      <div class="pipeline-label">Active Case · DHA Phase V Plot #1147</div>
+      <div class="pipeline-steps">
+        <div class="pipeline-step">
+          <div class="step-num active">✓</div>
+          <span class="step-text">Document Upload & Storage</span>
+          <span class="step-tag done">Done</span>
+        </div>
+        <div class="pipeline-step">
+          <div class="step-num active">✓</div>
+          <span class="step-text">OCR Extraction — 97% confidence</span>
+          <span class="step-tag done">Done</span>
+        </div>
+        <div class="pipeline-step">
+          <div class="step-num active">✓</div>
+          <span class="step-text">Document Classification</span>
+          <span class="step-tag done">Done</span>
+        </div>
+        <div class="pipeline-step">
+          <div class="step-num active" style="background:var(--gold);">→</div>
+          <span class="step-text">Rules Engine · Exception Check</span>
+          <span class="step-tag">Processing</span>
+        </div>
+        <div class="pipeline-step">
+          <div class="step-num">5</div>
+          <span class="step-text">CP Generation & Bank Pack Export</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-card">
+        <span class="stat-num">97%</span>
+        <span class="stat-label">OCR Accuracy</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">100%</span>
+        <span class="stat-label">On-Premise</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">RBAC</span>
+        <span class="stat-label">Access Control</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem-section" id="problem">
+  <div class="problem-inner">
+    <div>
+      <p class="section-eyebrow">The Problem</p>
+      <h2 class="section-h2">Manual review is <em>slow, inconsistent,</em> and hard to audit.</h2>
+      <p class="section-body">
+        Property financing in Pakistan relies on labour-intensive legal review of sale deeds, mutations, and allotment letters. Banks need standardised outputs — but no two law firms deliver the same format.
+      </p>
+    </div>
+    <ul class="pain-list">
+      <li class="pain-item">
+        <div class="pain-icon">⏱</div>
+        <div class="pain-item-text">
+          <strong>Time-consuming review cycles</strong>
+          <span>Legal review often spans days per case, creating financing bottlenecks.</span>
+        </div>
+      </li>
+      <li class="pain-item">
+        <div class="pain-icon">⚠</div>
+        <div class="pain-item-text">
+          <strong>Inconsistent output formats</strong>
+          <span>Each firm produces varied formats with limited audit traceability.</span>
+        </div>
+      </li>
+      <li class="pain-item">
+        <div class="pain-icon">🔎</div>
+        <div class="pain-item-text">
+          <strong>Human error in risk detection</strong>
+          <span>Chain-of-title gaps and encumbrances are easy to miss manually.</span>
+        </div>
+      </li>
+      <li class="pain-item">
+        <div class="pain-icon">🏛</div>
+        <div class="pain-item-text">
+          <strong>No regulatory audit trail</strong>
+          <span>Banks cannot trace how review decisions were reached or by whom.</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features" style="padding: 7rem 4rem;">
+  <div class="features-section">
+    <div class="features-header">
+      <p class="section-eyebrow">Core Capabilities</p>
+      <h2 class="section-h2">Everything a legal team needs, <em>automated.</em></h2>
+      <p class="section-body" style="margin: 1.25rem auto 0;">From raw document upload to a signed bank pack — CDS handles every step of the diligence pipeline.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-cell">
+        <div class="feature-icon-wrap green">📄</div>
+        <div class="feature-title">OCR with Confidence Scoring</div>
+        <p class="feature-desc">Per-page confidence scores using Tesseract and PaddleOCR. Every extraction is logged and traceable for audit purposes.</p>
+      </div>
+      <div class="feature-cell">
+        <div class="feature-icon-wrap gold">🗂</div>
+        <div class="feature-title">Automated Classification</div>
+        <p class="feature-desc">Documents are automatically classified — sale deeds, mutations, allotment letters — and routed to the right extraction pipeline.</p>
+      </div>
+      <div class="feature-cell">
+        <div class="feature-icon-wrap blue">⚙</div>
+        <div class="feature-title">Configurable Rules Engine</div>
+        <p class="feature-desc">Detect missing documents, risk keywords, ownership mismatches, and chain-of-title gaps against banking and legal standards.</p>
+      </div>
+      <div class="feature-cell">
+        <div class="feature-icon-wrap gold">📋</div>
+        <div class="feature-title">CP Generation</div>
+        <p class="feature-desc">Automatically produce Conditions Precedent aligned with bank review practices — reducing legal team drafting time significantly.</p>
+      </div>
+      <div class="feature-cell">
+        <div class="feature-icon-wrap green">✍</div>
+        <div class="feature-title">Draft Assistance</div>
+        <p class="feature-desc">Auto-generate discrepancy letters, undertakings, indemnities, and legal opinion skeletons from structured case data.</p>
+      </div>
+      <div class="feature-cell">
+        <div class="feature-icon-wrap blue">📦</div>
+        <div class="feature-title">Bank Pack Export</div>
+        <p class="feature-desc">One-click export of an executive summary, exceptions list, CP list, and document annexures — in DOCX and PDF.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORKFLOW -->
+<section class="workflow-section" id="workflow">
+  <div class="workflow-inner">
+    <div class="workflow-header">
+      <p class="section-eyebrow">Case Lifecycle</p>
+      <h2 class="section-h2" style="color:#fff; max-width:none;">A structured pipeline from upload to approval.</h2>
+    </div>
+    <div class="workflow-steps">
+      <div class="wf-step active">
+        <div class="wf-num active">1</div>
+        <div class="wf-label">Upload</div>
+      </div>
+      <div class="wf-step active">
+        <div class="wf-num active">2</div>
+        <div class="wf-label">OCR & Storage</div>
+      </div>
+      <div class="wf-step active">
+        <div class="wf-num active">3</div>
+        <div class="wf-label">Classify</div>
+      </div>
+      <div class="wf-step active">
+        <div class="wf-num active">4</div>
+        <div class="wf-label">Extract</div>
+      </div>
+      <div class="wf-step">
+        <div class="wf-num">5</div>
+        <div class="wf-label">Rules Review</div>
+      </div>
+      <div class="wf-step">
+        <div class="wf-num">6</div>
+        <div class="wf-label">Dossier</div>
+      </div>
+      <div class="wf-step">
+        <div class="wf-num">7</div>
+        <div class="wf-label">Bank Export</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OUTPUT -->
+<section class="output-section" id="output">
+  <div class="output-inner">
+    <div>
+      <p class="section-eyebrow">Outputs</p>
+      <h2 class="section-h2">One complete, <em>bank-ready</em> export pack.</h2>
+      <p class="section-body">
+        CDS compiles every case finding into a single structured package aligned with bank review requirements — ready to send the moment it's generated.
+      </p>
+      <ul class="output-list">
+        <li class="output-item"><div class="output-check">✓</div> Executive Summary with case overview</li>
+        <li class="output-item"><div class="output-check">✓</div> Numbered exceptions list with references</li>
+        <li class="output-item"><div class="output-check">✓</div> Conditions Precedent with legal citations</li>
+        <li class="output-item"><div class="output-check">✓</div> Annexures linking back to source documents</li>
+        <li class="output-item"><div class="output-check">✓</div> Immutable audit log of all reviewer actions</li>
+      </ul>
+    </div>
+    <div class="export-card">
+      <div class="export-header">Bank Pack · Export Ready</div>
+      <ul class="export-items">
+        <li class="export-item">
+          <span>📄</span> Executive Summary
+          <span class="export-fmt fmt-both">DOCX + PDF</span>
+        </li>
+        <li class="export-item">
+          <span>⚠</span> Exceptions Register (3 items)
+          <span class="export-fmt fmt-pdf">PDF</span>
+        </li>
+        <li class="export-item">
+          <span>✅</span> Conditions Precedent (5 items)
+          <span class="export-fmt fmt-docx">DOCX</span>
+        </li>
+        <li class="export-item">
+          <span>📎</span> Document Annexures
+          <span class="export-fmt fmt-pdf">PDF</span>
+        </li>
+        <li class="export-item">
+          <span>🔐</span> Audit Log Export
+          <span class="export-fmt fmt-pdf">PDF</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SECURITY -->
+<section class="security-section" id="security">
+  <div class="security-inner">
+    <div class="security-header">
+      <p class="section-eyebrow">Security & Compliance</p>
+      <h2 class="section-h2">Built for banking confidentiality, <em>from the ground up.</em></h2>
+      <p class="section-body" style="margin: 1.25rem auto 0; max-width: 520px;">CDS runs entirely on-premise — no cloud, no data leaving your infrastructure.</p>
+    </div>
+    <div class="security-grid">
+      <div class="sec-card">
+        <div class="sec-icon">🏢</div>
+        <div class="sec-title">On-Premise Only</div>
+        <p class="sec-desc">Deployed entirely within your infrastructure. No external data transfer, ever.</p>
+      </div>
+      <div class="sec-card">
+        <div class="sec-icon">🔒</div>
+        <div class="sec-title">Role-Based Access</div>
+        <p class="sec-desc">Admin, Reviewer, Approver, and Viewer roles with granular permissions.</p>
+      </div>
+      <div class="sec-card">
+        <div class="sec-icon">📜</div>
+        <div class="sec-title">Immutable Audit Logs</div>
+        <p class="sec-desc">Every action is logged and tamper-proof, meeting regulatory audit standards.</p>
+      </div>
+      <div class="sec-card">
+        <div class="sec-icon">🔗</div>
+        <div class="sec-title">Signed Downloads</div>
+        <p class="sec-desc">All documents accessed via time-limited signed links — no direct storage exposure.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USERS -->
+<section id="users">
+  <div class="users-section">
+    <div class="users-header">
+      <p class="section-eyebrow">Who It's For</p>
+      <h2 class="section-h2">Built for every team in the diligence chain.</h2>
+    </div>
+    <div class="users-grid">
+      <div class="user-card">
+        <span class="user-icon">🏦</span>
+        <div class="user-title">Banks</div>
+        <p class="user-desc">Legal and credit departments needing standardised, auditable diligence inputs for financing decisions.</p>
+      </div>
+      <div class="user-card">
+        <span class="user-icon">⚖</span>
+        <div class="user-title">Law Firms</div>
+        <p class="user-desc">Firms conducting property due diligence who need faster review cycles without sacrificing accuracy.</p>
+      </div>
+      <div class="user-card">
+        <span class="user-icon">🏗</span>
+        <div class="user-title">Developers</div>
+        <p class="user-desc">Real estate developers and financial institutions processing high volumes of property transactions.</p>
+      </div>
+      <div class="user-card">
+        <span class="user-icon">🛡</span>
+        <div class="user-title">Risk & Compliance</div>
+        <p class="user-desc">Teams who require documented, traceable evidence for regulatory review and internal governance.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="cta">
+  <h2 class="cta-h2">Ready to modernise your property diligence?</h2>
+  <p class="cta-sub">CDS is currently being deployed for Punjab property transactions. Request a demo to see it in action.</p>
+  <div class="cta-buttons">
+    <a href="#" class="btn-white" onclick="openDemo();return false;">Request a Demo</a>
+    <a href="#features" class="btn-outline-white">Explore Features</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">Covenant Diligence Systems</span>
+  <span class="footer-note">Initial release · Punjab property transactions · Pakistan</span>
+</footer>
+
+<!-- DEMO MODAL -->
+<div id="demo-overlay" style="display:none; position:fixed; inset:0; z-index:999; background:rgba(14,26,20,0.55); backdrop-filter:blur(4px); align-items:center; justify-content:center;">
+  <div id="demo-modal" style="background:#F5F2ED; border-radius:16px; width:100%; max-width:520px; margin:1rem; box-shadow:0 24px 64px rgba(14,26,20,0.22); overflow:hidden; position:relative; font-family:'DM Sans',system-ui,sans-serif;">
+
+    <!-- Progress bar -->
+    <div style="height:3px; background:#EDE9E1;">
+      <div id="progress-bar" style="height:100%; background:#1A6B42; width:33%; transition:width 0.4s ease;"></div>
+    </div>
+
+    <!-- Close -->
+    <button onclick="closeDemo()" style="position:absolute; top:16px; right:16px; background:transparent; border:none; cursor:pointer; width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#4A5E54; font-size:18px; line-height:1; transition:background 0.15s;" onmouseover="this.style.background='#EDE9E1'" onmouseout="this.style.background='transparent'">✕</button>
+
+    <div style="padding:2rem 2rem 1.5rem;">
+
+      <!-- STEP 1: Industry -->
+      <div id="step-1">
+        <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:#1A6B42; font-weight:500; margin-bottom:0.6rem;">Step 1 of 3</div>
+        <h3 style="font-family:'Instrument Serif',Georgia,serif; font-size:1.6rem; font-weight:400; color:#0E1A14; margin-bottom:0.5rem; line-height:1.2;">What's your industry?</h3>
+        <p style="font-size:14px; color:#4A5E54; font-weight:300; margin-bottom:1.75rem;">This helps us assign the right role and access level for your demo account.</p>
+
+        <div id="industry-options" style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+          <div class="ind-card" onclick="selectIndustry(this,'Bank / Financial Institution')">
+            <span style="font-size:22px; display:block; margin-bottom:8px;">🏦</span>
+            <div style="font-size:13px; font-weight:500; color:#0E1A14;">Bank / Financial Institution</div>
+          </div>
+          <div class="ind-card" onclick="selectIndustry(this,'Law Firm')">
+            <span style="font-size:22px; display:block; margin-bottom:8px;">⚖️</span>
+            <div style="font-size:13px; font-weight:500; color:#0E1A14;">Law Firm</div>
+          </div>
+          <div class="ind-card" onclick="selectIndustry(this,'Real Estate Developer')">
+            <span style="font-size:22px; display:block; margin-bottom:8px;">🏗️</span>
+            <div style="font-size:13px; font-weight:500; color:#0E1A14;">Real Estate Developer</div>
+          </div>
+          <div class="ind-card" onclick="selectIndustry(this,'Risk & Compliance')">
+            <span style="font-size:22px; display:block; margin-bottom:8px;">🛡️</span>
+            <div style="font-size:13px; font-weight:500; color:#0E1A14;">Risk & Compliance</div>
+          </div>
+          <div class="ind-card" onclick="selectIndustry(this,'Government / Regulatory Body')">
+            <span style="font-size:22px; display:block; margin-bottom:8px;">🏛️</span>
+            <div style="font-size:13px; font-weight:500; color:#0E1A14;">Government / Regulatory</div>
+          </div>
+          <div class="ind-card" onclick="selectIndustry(this,'Other')">
+            <span style="font-size:22px; display:block; margin-bottom:8px;">🏢</span>
+            <div style="font-size:13px; font-weight:500; color:#0E1A14;">Other</div>
+          </div>
+        </div>
+
+        <div style="margin-top:1.5rem; display:flex; justify-content:flex-end;">
+          <button id="step1-next" onclick="goStep(2)" disabled style="background:#1A6B42; color:#fff; border:none; padding:11px 28px; border-radius:8px; font-size:14px; font-weight:500; cursor:pointer; opacity:0.4; transition:opacity 0.2s;">Next →</button>
+        </div>
+      </div>
+
+      <!-- STEP 2: Contact Info -->
+      <div id="step-2" style="display:none;">
+        <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:#1A6B42; font-weight:500; margin-bottom:0.6rem;">Step 2 of 3</div>
+        <h3 style="font-family:'Instrument Serif',Georgia,serif; font-size:1.6rem; font-weight:400; color:#0E1A14; margin-bottom:0.5rem; line-height:1.2;">Your contact details</h3>
+        <p style="font-size:14px; color:#4A5E54; font-weight:300; margin-bottom:1.75rem;">We'll send your role-based login credentials to this email.</p>
+
+        <div style="display:flex; flex-direction:column; gap:14px;">
+          <div>
+            <label style="font-size:12px; font-weight:500; color:#0E1A14; display:block; margin-bottom:6px;">Full Name</label>
+            <input id="inp-name" type="text" placeholder="e.g. Ahmed Raza" style="width:100%; padding:10px 14px; border:0.5px solid rgba(14,26,20,0.22); border-radius:8px; font-size:14px; background:#fff; color:#0E1A14; font-family:'DM Sans',system-ui,sans-serif; outline:none; transition:border-color 0.2s;" onfocus="this.style.borderColor='#1A6B42'" onblur="this.style.borderColor='rgba(14,26,20,0.22)'">
+          </div>
+          <div>
+            <label style="font-size:12px; font-weight:500; color:#0E1A14; display:block; margin-bottom:6px;">Work Email</label>
+            <input id="inp-email" type="email" placeholder="e.g. ahmed@yourfirm.com" style="width:100%; padding:10px 14px; border:0.5px solid rgba(14,26,20,0.22); border-radius:8px; font-size:14px; background:#fff; color:#0E1A14; font-family:'DM Sans',system-ui,sans-serif; outline:none; transition:border-color 0.2s;" onfocus="this.style.borderColor='#1A6B42'" onblur="this.style.borderColor='rgba(14,26,20,0.22)'">
+          </div>
+          <div>
+            <label style="font-size:12px; font-weight:500; color:#0E1A14; display:block; margin-bottom:6px;">Organisation Name</label>
+            <input id="inp-org" type="text" placeholder="e.g. MCB Bank, Aisha Firm & Co." style="width:100%; padding:10px 14px; border:0.5px solid rgba(14,26,20,0.22); border-radius:8px; font-size:14px; background:#fff; color:#0E1A14; font-family:'DM Sans',system-ui,sans-serif; outline:none; transition:border-color 0.2s;" onfocus="this.style.borderColor='#1A6B42'" onblur="this.style.borderColor='rgba(14,26,20,0.22)'">
+          </div>
+          <div>
+            <label style="font-size:12px; font-weight:500; color:#0E1A14; display:block; margin-bottom:6px;">Phone <span style="color:#8A9E94; font-weight:300;">(optional)</span></label>
+            <input id="inp-phone" type="tel" placeholder="e.g. +92 300 1234567" style="width:100%; padding:10px 14px; border:0.5px solid rgba(14,26,20,0.22); border-radius:8px; font-size:14px; background:#fff; color:#0E1A14; font-family:'DM Sans',system-ui,sans-serif; outline:none; transition:border-color 0.2s;" onfocus="this.style.borderColor='#1A6B42'" onblur="this.style.borderColor='rgba(14,26,20,0.22)'">
+          </div>
+        </div>
+        <div id="step2-err" style="display:none; font-size:12px; color:#C03030; margin-top:10px;">Please fill in your name and a valid work email.</div>
+
+        <div style="margin-top:1.5rem; display:flex; justify-content:space-between; align-items:center;">
+          <button onclick="goStep(1)" style="background:transparent; border:0.5px solid rgba(14,26,20,0.22); color:#4A5E54; padding:11px 22px; border-radius:8px; font-size:14px; cursor:pointer; transition:background 0.15s;" onmouseover="this.style.background='#EDE9E1'" onmouseout="this.style.background='transparent'">← Back</button>
+          <button onclick="goStep(3)" style="background:#1A6B42; color:#fff; border:none; padding:11px 28px; border-radius:8px; font-size:14px; font-weight:500; cursor:pointer; transition:opacity 0.2s;">Next →</button>
+        </div>
+      </div>
+
+      <!-- STEP 3: Role & Submit -->
+      <div id="step-3" style="display:none;">
+        <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:#1A6B42; font-weight:500; margin-bottom:0.6rem;">Step 3 of 3</div>
+        <h3 style="font-family:'Instrument Serif',Georgia,serif; font-size:1.6rem; font-weight:400; color:#0E1A14; margin-bottom:0.5rem; line-height:1.2;">Your role in the process</h3>
+        <p style="font-size:14px; color:#4A5E54; font-weight:300; margin-bottom:1.75rem;">We'll assign a matching system role. You can request changes after your first login.</p>
+
+        <div id="role-options" style="display:flex; flex-direction:column; gap:10px;">
+          <div class="role-card" onclick="selectRole(this,'Reviewer','Reviews documents and flags exceptions')">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div style="width:36px; height:36px; border-radius:8px; background:#D6EDE1; display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0;">🔍</div>
+              <div>
+                <div style="font-size:13px; font-weight:500; color:#0E1A14;">Reviewer</div>
+                <div style="font-size:12px; color:#4A5E54; font-weight:300;">Reviews documents and flags exceptions</div>
+              </div>
+            </div>
+          </div>
+          <div class="role-card" onclick="selectRole(this,'Approver','Signs off on completed dossiers')">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div style="width:36px; height:36px; border-radius:8px; background:#D6EDE1; display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0;">✅</div>
+              <div>
+                <div style="font-size:13px; font-weight:500; color:#0E1A14;">Approver</div>
+                <div style="font-size:12px; color:#4A5E54; font-weight:300;">Signs off on completed dossiers</div>
+              </div>
+            </div>
+          </div>
+          <div class="role-card" onclick="selectRole(this,'Viewer','Read-only access to reports and exports')">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div style="width:36px; height:36px; border-radius:8px; background:#D6EDE1; display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0;">👁️</div>
+              <div>
+                <div style="font-size:13px; font-weight:500; color:#0E1A14;">Viewer</div>
+                <div style="font-size:12px; color:#4A5E54; font-weight:300;">Read-only access to reports and exports</div>
+              </div>
+            </div>
+          </div>
+          <div class="role-card" onclick="selectRole(this,'Admin','Full access, manages users and settings')">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div style="width:36px; height:36px; border-radius:8px; background:#D6EDE1; display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0;">⚙️</div>
+              <div>
+                <div style="font-size:13px; font-weight:500; color:#0E1A14;">Admin</div>
+                <div style="font-size:12px; color:#4A5E54; font-weight:300;">Full access, manages users and settings</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="step3-err" style="display:none; font-size:12px; color:#C03030; margin-top:10px;">Please select a role to continue.</div>
+
+        <div style="margin-top:1.5rem; display:flex; justify-content:space-between; align-items:center;">
+          <button onclick="goStep(2)" style="background:transparent; border:0.5px solid rgba(14,26,20,0.22); color:#4A5E54; padding:11px 22px; border-radius:8px; font-size:14px; cursor:pointer; transition:background 0.15s;" onmouseover="this.style.background='#EDE9E1'" onmouseout="this.style.background='transparent'">← Back</button>
+          <button id="submit-btn" onclick="submitDemo()" style="background:#1A6B42; color:#fff; border:none; padding:11px 28px; border-radius:8px; font-size:14px; font-weight:500; cursor:pointer; transition:opacity 0.2s;">Send Request →</button>
+        </div>
+      </div>
+
+      <!-- STEP 4: Success -->
+      <div id="step-4" style="display:none; text-align:center; padding:1rem 0 0.5rem;">
+        <div style="width:60px; height:60px; background:#D6EDE1; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 1.25rem; font-size:26px;">✓</div>
+        <h3 style="font-family:'Instrument Serif',Georgia,serif; font-size:1.7rem; font-weight:400; color:#0E1A14; margin-bottom:0.6rem;">Request received.</h3>
+        <p style="font-size:14px; color:#4A5E54; font-weight:300; line-height:1.7; max-width:360px; margin:0 auto 0.5rem;">We'll review your details and send your <strong style="font-weight:500; color:#0E1A14;">role-based credentials</strong> to <span id="confirm-email" style="color:#1A6B42; font-weight:500;"></span> within one business day.</p>
+        <div id="confirm-summary" style="background:#EDE9E1; border-radius:10px; padding:1rem 1.25rem; margin:1.25rem 0; text-align:left; font-size:13px; color:#4A5E54; line-height:1.8;"></div>
+        <button onclick="closeDemo()" style="background:#1A6B42; color:#fff; border:none; padding:11px 28px; border-radius:8px; font-size:14px; font-weight:500; cursor:pointer; width:100%;">Done</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<style>
+  .ind-card {
+    border: 0.5px solid rgba(14,26,20,0.15);
+    border-radius: 10px;
+    padding: 14px 14px 12px;
+    cursor: pointer;
+    background: #fff;
+    transition: border-color 0.15s, background 0.15s;
+    user-select: none;
+  }
+  .ind-card:hover { background: #EDE9E1; }
+  .ind-card.selected { border-color: #1A6B42; background: #D6EDE1; }
+
+  .role-card {
+    border: 0.5px solid rgba(14,26,20,0.15);
+    border-radius: 10px;
+    padding: 12px 14px;
+    cursor: pointer;
+    background: #fff;
+    transition: border-color 0.15s, background 0.15s;
+    user-select: none;
+  }
+  .role-card:hover { background: #EDE9E1; }
+  .role-card.selected { border-color: #1A6B42; background: #D6EDE1; }
+
+  #demo-overlay.open { display: flex !important; }
+
+  @keyframes modalIn {
+    from { opacity:0; transform:translateY(16px) scale(0.98); }
+    to   { opacity:1; transform:translateY(0) scale(1); }
+  }
+  #demo-modal { animation: modalIn 0.28s ease both; }
+</style>
+
+<script>
+  // Scroll spy — highlight active nav link as user scrolls
+  const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+  const sections = [...navLinks].map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+
+  function onScroll() {
+    const scrollY = window.scrollY + 68 + 40;
+    let active = sections[0];
+    for (const sec of sections) {
+      if (sec.offsetTop <= scrollY) active = sec;
+    }
+    navLinks.forEach(a => {
+      a.classList.toggle('nav-active', a.getAttribute('href') === '#' + active.id);
+    });
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // ── DEMO MODAL LOGIC ──
+  let selectedIndustry = '';
+  let selectedRole = '';
+
+  function openDemo() {
+    selectedIndustry = '';
+    selectedRole = '';
+    document.getElementById('step1-next').disabled = true;
+    document.getElementById('step1-next').style.opacity = '0.4';
+    document.querySelectorAll('.ind-card').forEach(c => c.classList.remove('selected'));
+    document.querySelectorAll('.role-card').forEach(c => c.classList.remove('selected'));
+    ['inp-name','inp-email','inp-org','inp-phone'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('step2-err').style.display = 'none';
+    document.getElementById('step3-err').style.display = 'none';
+    showStep(1);
+    document.getElementById('demo-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDemo() {
+    document.getElementById('demo-overlay').classList.remove('open'); 
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('demo-overlay').addEventListener('click', function(e) {
+    if (e.target === this) closeDemo();
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeDemo();
+  });
+
+  function showStep(n) {
+    [1,2,3,4].forEach(i => {
+      const el = document.getElementById('step-' + i);
+      if (el) el.style.display = i === n ? 'block' : 'none';
+    });
+    const pct = { 1: '33%', 2: '66%', 3: '90%', 4: '100%' };
+    document.getElementById('progress-bar').style.width = pct[n] || '33%';
+  }
+
+  function selectIndustry(el, val) {
+    document.querySelectorAll('.ind-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedIndustry = val;
+    const btn = document.getElementById('step1-next');
+    btn.disabled = false;
+    btn.style.opacity = '1';
+  }
+
+  function selectRole(el, role, desc) {
+    document.querySelectorAll('.role-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedRole = role;
+    document.getElementById('step3-err').style.display = 'none';
+  }
+
+  function goStep(n) {
+    if (n === 3) {
+      const name = document.getElementById('inp-name').value.trim();
+      const email = document.getElementById('inp-email').value.trim();
+      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      if (!name || !emailOk) {
+        document.getElementById('step2-err').style.display = 'block';
+        return;
+      }
+      document.getElementById('step2-err').style.display = 'none';
+    }
+    showStep(n);
+  }
+
+  function submitDemo() {
+    if (!selectedRole) {
+      document.getElementById('step3-err').style.display = 'block';
+      return;
+    }
+    const name  = document.getElementById('inp-name').value.trim();
+    const email = document.getElementById('inp-email').value.trim();
+    const org   = document.getElementById('inp-org').value.trim();
+
+    document.getElementById('confirm-email').textContent = email;
+    document.getElementById('confirm-summary').innerHTML =
+      '<strong style="font-weight:500;color:#0E1A14;">Name:</strong> ' + name + '<br>' +
+      '<strong style="font-weight:500;color:#0E1A14;">Organisation:</strong> ' + (org || '—') + '<br>' +
+      '<strong style="font-weight:500;color:#0E1A14;">Industry:</strong> ' + selectedIndustry + '<br>' +
+      '<strong style="font-weight:500;color:#0E1A14;">Role Requested:</strong> ' + selectedRole;
+
+    showStep(4);
+  }
+</script>
+</body>
+</html>
